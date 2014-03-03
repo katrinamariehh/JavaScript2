@@ -23,7 +23,7 @@
             <div id="count"></div>
         </div>
         <div class="form">
-            <input type="text" id="student_name">
+            <input type="text" id="studentName">
             <button id="sort_student">Sort!</button>
 <!--             <div id="count"></div> -->
         </div>
@@ -57,19 +57,23 @@
             // find count display
             var countNode = document.getElementById("count");
             // write to count display
-            countNode.innerHTML = "<p>" + studentCount + "</p>";
+            countNode.innerHTML = studentCount;
             // reset the input box
             counter.value = 0;
         });
         var houses = {
-            Gryffindor: [],
-            Hufflepuff: [],
-            Ravenclaw: [],
-            Slytherin: [],
-            DumbledoresArmy: []
+            "Gryffindor": [],
+            "Hufflepuff": [],
+            "Ravenclaw": [],
+            "Slytherin": [],
+            "DumbledoresArmy": []
         };
         var sortButton = document.getElementById("sort_student");
         sortButton.addEventListener('click', function(){
+            // get student's name
+            var studentNameField = document.getElementById("studentName");
+            var studentName = studentNameField.value;
+
             // evaluate available houses
             var maxHouseValue = studentCount/5;
             var availableHouses = []
@@ -80,10 +84,21 @@
             }
             // add individual to a random available house
             var houseNo = Math.floor(Math.random() * availableHouses.length);
+            var houseName = availableHouses[houseNo];
+            houses[houseName].push(studentName);
+
             // display student's name inside a house
+            var assignedHouse = document.getElementById(houseName);
+            var assignedStudent = document.createElement('p');
+            assignedStudent.innerHTML = studentName;
+            assignedHouse.appendChild(assignedStudent);
 
             // reset input field
+            studentNameField.value = "";
 
+            // decrement sort counter
+            var countNode = document.getElementById("count");
+            countNode.innerHTML = parseInt(countNode.innerHTML) - 1;
         });
     </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
