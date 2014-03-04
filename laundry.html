@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Laundry Timers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>Laundry Timers</h1>
+    
+    <!-- create form: how long for washer, how long for dryer -->
+    <div class="form">
+        <input type="number" id="washer_length">
+        <button id="set_washer_length">Set Washer Length</button>
+<!--         <div id="count"></div>  - just in case we want to show wash length later -->
+    </div>
+    <div class="form">
+        <input type="number" id="dryer_length">
+        <button id="set_dryer_length">Set Dryer Length</button>
+    </div>
+
+    <table class="table" id="table">
+        <tr>
+            <th>Load Type</th>
+            <th>Time Remaining</th>
+        </tr>
+        <tr>
+            <td class="type">Washing Machine</td>
+            <td class="timer">9:11</td>
+        </tr>
+        <tr>
+            <td class="type">Washing Machine</td>
+            <td class="timer">12:33</td>
+        </tr>
+        <tr>
+            <td class="type">Dryer</td>
+            <td class="timer">54:44</td>
+        </tr>
+        <tr>
+            <td class="type">Dryer</td>
+            <td class="timer">0:03</td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        // function: decrement all times on page
+        // while loop on seconds, if statement for minutes
+        function decrementCounters(){
+            // put all timers into a list
+            var timerElements = document.getElementsByClassName("timer");
+            var timers = [];
+            // iterate over items in timers list, split into minutes and seconds
+            for (i=0; i < timerElements.length; i++){
+                timers = timerElements[i].innerHTML;
+                var times = timers.split(":");
+                var minutes = times[0];
+                var seconds = times[1];
+                // if seconds are greater than 0, decrease by 1
+                if (seconds >= 0) {
+                    seconds--;
+                } 
+                if (seconds < 0) {
+                    minutes--;
+                    seconds = 59;
+                }
+                // cast seconds to string to account for :0x numbers
+                seconds = seconds.toString();
+                if (seconds.length==1) {
+                    seconds = "0" + seconds.toString();
+                }
+                // concatenate timers, replace in HTML
+                timers = minutes + ":" + seconds;
+                timerElements[i].innerHTML = timers;
+            }
+        }
+
+        // function: stop timer once it reaches 00:00
+        function stopEndedCounters(){
+            var timerElements = document.getElementsByClassName("timer");
+            for (timer in timerElements) {
+                if (timerElements[timer].innerHTML == "0:00"){
+                    timerElements[timer].className = "";
+                }
+
+            }
+        }
+
+        // function: create new washing machine row
+
+
+        // function: create new dryer row
+
+        setInterval(function(){
+            decrementCounters();
+            stopEndedCounters();
+        },1000)
+    </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  </body>
+</html>
