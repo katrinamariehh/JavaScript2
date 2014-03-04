@@ -18,12 +18,12 @@
     
     <!-- create form: how long for washer, how long for dryer -->
     <div class="form">
-        <input type="number" id="washer_length">
+        <input type="text" id="washer_length">
         <button id="set_washer_length">Set Washer Length</button>
 <!--         <div id="count"></div>  - just in case we want to show wash length later -->
     </div>
     <div class="form">
-        <input type="number" id="dryer_length">
+        <input type="text" id="dryer_length">
         <button id="set_dryer_length">Set Dryer Length</button>
     </div>
 
@@ -32,22 +32,24 @@
             <th>Load Type</th>
             <th>Time Remaining</th>
         </tr>
-        <tr>
-            <td class="type">Washing Machine</td>
-            <td class="timer">9:11</td>
-        </tr>
-        <tr>
-            <td class="type">Washing Machine</td>
-            <td class="timer">12:33</td>
-        </tr>
-        <tr>
-            <td class="type">Dryer</td>
-            <td class="timer">54:44</td>
-        </tr>
-        <tr>
-            <td class="type">Dryer</td>
-            <td class="timer">0:03</td>
-        </tr>
+        <tbody id="tbody">
+            <tr>
+                <td class="type">Washing Machine</td>
+                <td class="timer">9:11</td>
+            </tr>
+            <tr>
+                <td class="type">Washing Machine</td>
+                <td class="timer">12:33</td>
+            </tr>
+            <tr>
+                <td class="type">Dryer</td>
+                <td class="timer">54:44</td>
+            </tr>
+            <tr>
+                <td class="type">Dryer</td>
+                <td class="timer">0:03</td>
+            </tr>
+        </tbody>
     </table>
 
     <script type="text/javascript">
@@ -94,9 +96,61 @@
         }
 
         // function: create new washing machine row
+        var washerButton = document.getElementById("set_washer_length");
+        washerButton.addEventListener('click', function(){
+            // create new row and columns for type + timer
+            var newWasherRow = document.createElement('tr');
+            
+            var newWasher = document.createElement('td');
+            newWasher.className = "type";
+            newWasher.innerHTML = "Washing Machine";
 
+            var newWasherTimer = document.createElement('td');
+            newWasherTimer.className = "timer";
+            
+            // get input from washer length field
+            var washerLengthInput = document.getElementById("washer_length");
+            washerLength = washerLengthInput.value;
+            newWasherTimer.innerHTML = washerLength;
+
+            // append new columns to containing row and append row to table body
+            newWasherRow.appendChild(newWasher);
+            newWasherRow.appendChild(newWasherTimer);
+            var tableNode = document.getElementById("tbody");
+            tableNode.appendChild(newWasherRow);
+
+            // reset washer length input field
+            washerLengthInput.value = "";
+        });
 
         // function: create new dryer row
+        var dryerButton = document.getElementById("set_dryer_length");
+        dryerButton.addEventListener('click', function(){
+            // create new row and columns for type + timer
+            var newDryerRow = document.createElement('tr');
+            
+            var newDryer = document.createElement('td');
+            newDryer.className = "type";
+            newDryer.innerHTML = "Dryer";
+
+            var newDryerTimer = document.createElement('td');
+            newDryerTimer.className = "timer";
+            
+            // get input from dryer length field
+            var dryerLengthInput = document.getElementById("dryer_length");
+            dryerLength = dryerLengthInput.value;
+            newDryerTimer.innerHTML = dryerLength;
+
+            // append new columns to containing row and append row to table body
+            newDryerRow.appendChild(newDryer);
+            newDryerRow.appendChild(newDryerTimer);
+            var tableNode = document.getElementById("tbody");
+            tableNode.appendChild(newDryerRow);
+
+            // reset dryer length input field
+            dryerLengthInput.value = "";
+        });
+
 
         setInterval(function(){
             decrementCounters();
